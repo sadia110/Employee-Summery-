@@ -16,7 +16,7 @@ const render = require("./lib/htmlRenderer");
 let ID = 1;
 
 async function main() {
-    console.log(`[main] Starting...`)
+    console.log(`[main] Starting..`)
     const team = []
 
     const managerData = await inquirer.prompt([
@@ -40,7 +40,7 @@ async function main() {
             name: "count",
             message: "Enter amount of employee managers team"
         }
-    ])
+    ]);
     team.push( new Manager(managerData.name, ID++, managerData.email, managerData.officeNumber, managerData.count))
 
     for (let userCnt = 1; userCnt<=managerData.count ; userCnt++ ) {
@@ -82,7 +82,7 @@ async function main() {
                 {
                     name: "email",
                     type: "input",
-                    message: "Enter intern's email address?"
+                    message: "Enter intern's email address"
                 },
                 {
                     name: "school",
@@ -93,6 +93,8 @@ async function main() {
             team.push ( new Intern(userData.name, ID++, userData.email, userData.school))
         }
     }
+    
+    
     const html = render (team)
 
     fs.writeFileSync (outputPath, html);

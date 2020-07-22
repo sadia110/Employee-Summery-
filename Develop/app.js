@@ -87,7 +87,7 @@ async function main() {
                 {
                     name: "school",
                     type: "input",
-                    message: "Enter interns school?"
+                    message: "Enter interns school"
                 }
             ])
             team.push ( new Intern(userData.name, ID++, userData.email, userData.school))

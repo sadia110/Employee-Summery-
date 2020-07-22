@@ -22,3 +22,6 @@ Then run:  node app.js.
 
 
 ![image](https://user-images.githubusercontent.com/64391826/88221028-d9565900-cc31-11ea-846b-b3aa661f3ee3.png)
+
+## Jest Testing - 3 Test Passed 
+![image](https://user-images.githubusercontent.com/64391826/88222190-95645380-cc33-11ea-89a3-0e864938b85d.png)

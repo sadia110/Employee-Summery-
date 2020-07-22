@@ -13,110 +13,93 @@ const render = require("./lib/htmlRenderer");
 
 // _________________________
 
-let ID = 1; 
+let ID = 1;
 
-async function main (){
-    console.log( [main] Start..) 
-    const team = [] 
+async function main() {
+    console.log(`[main] Starting...`)
+    const team = []
 
+    const managerData = await inquirer.prompt([
+        {
+            name: "name",
+            type: "input",
+            message: "Enter manager's name"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Enter manager's email"
+        },
+        {
+            type: "input",
+            name: "officeNumber",
+            message: "Enter manager's office number"            
+        },
+        {
+            type: "input",
+            name: "count",
+            message: "Enter amount of employee managers team"
+        }
+    ])
+    team.push( new Manager(managerData.name, ID++, managerData.email, managerData.officeNumber, managerData.count))
 
-    const managerData = await inquirer.prompt([ 
-        {
-            name: 'name',
-            type: 'input', 
-            message: "Enter Manager's name"
-        },  
-        {
-            name: 'email',
-            type: 'input', 
-            message: "Enter Manager's email"
-        }, 
-        {
-            name: 'officeNumber',
-            type: 'input', 
-            message: "Enter Manager's office number"
-        },  
-        {
-            name: 'count',
-            type: 'input', 
-            message: "Enter amount of employee working under Manager"
-        }, 
- 
-    ]) 
-
-    // to creat a manager object  
-    team.push ( new Manager ( managerData.name, ID++, managerData.email, managerData.officeNumber, managerData.count)) 
-    for ( let userCnt =1; userCnt<= managerData.count ; userCnt++ ){ 
+    for (let userCnt = 1; userCnt<=managerData.count ; userCnt++ ) {
         const user = await inquirer.prompt([
             {
-                name:'type', 
-                type:'list',
-                message:`For person ${userCnt}/${managerData.count}`,
-                choices: ["Intern", "Engineer"]
+                name: "type",
+                type: "list",
+                message: `For person ${userCnt}/${managerData.name}`,
+                choices: ["intern", "engineer"]
             }
-        ]) 
-         // ENGINEER
-        if ( user.type== "Engineer" ){
+        ])
+
+        if (user.type == "engineer") {
             const userData = await inquirer.prompt([
                 {
-                    name: 'name', 
-                    type: 'input', 
-                    message: 'Enter engineer name'
-                },   
+                    name: "name",
+                    type: "input",
+                    message: "Enter engineer's name"
+                },
                 {
-                    name: 'email', 
-                    type: 'input', 
-                    message: 'Enter engineer email address'
-                },  
-                // {
-                //     name: 'employee ID', 
-                //     type: 'input', 
-                //     message: 'Enter engineer employee ID'
-                // }, 
-            
+                    name: "email",
+                    type: "input",
+                    message: "Enter engineer's email address"
+                },
                 {
-                    name: 'github', 
-                    type: 'input', 
-                    message: 'Enter engineer github ID'
-                }, 
-            ]);
-            team.push ( new Engineer (user.Data.name, ID++, userData.email, userData.github))
-        
-        } else {   
-
-            // INTERN
-
+                    name: "github",
+                    type: "input",
+                    message: "Enter engineer's github ID?"
+                }
+            ])
+            team.push( new Engineer (userData.name, ID++, userData.email, userData.github))
+        } else {
             const userData = await inquirer.prompt([
                 {
-                    name:'name', 
-                    type: 'input', 
-                    message: 'Enter Intern name'
-                },  
+                    name: "name",
+                    type: "input",
+                    message: "Enter intern's name"
+                },
                 {
-                    name:'email', 
-                    type: 'input', 
-                    message: 'Enter Intern email address'
-                },  
+                    name: "email",
+                    type: "input",
+                    message: "Enter intern's email address?"
+                },
                 {
-                    name:'school ', 
-                    type: 'input', 
-                    message: 'Enter Intern school name'
-                }, 
-            ]);
-            team.push( new Intern( userData.name, ID++, userData.email, userData.school))
+                    name: "school",
+                    type: "input",
+                    message: "Enter interns school?"
+                }
+            ])
+            team.push ( new Intern(userData.name, ID++, userData.email, userData.school))
         }
+    }
+    const html = render (team)
 
-    
-    } 
+    fs.writeFileSync (outputPath, html);
+    console.log(`Finished writing the file, available on ${outputPath}`)
+}
 
-    // TO CREATE HTML & WRITE FILE 
-    const html = render(team) 
-
-    fs. writeFileSync (outputPath, html ); 
-    console.log( `finshed writing file , availble in ${outputPath}`)
-
-} 
-main ();  
+main(); 
 
 
 

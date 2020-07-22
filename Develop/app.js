@@ -68,7 +68,7 @@ async function main() {
                 {
                     name: "github",
                     type: "input",
-                    message: "Enter engineer's github ID?"
+                    message: "Enter engineer's github"
                 }
             ])
             team.push( new Engineer (userData.name, ID++, userData.email, userData.github))

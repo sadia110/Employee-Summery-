@@ -11,6 +11,120 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
+// _________________________
+
+let ID = 1; 
+
+async function main (){
+    console.log( [main] Start..) 
+    const team = [] 
+
+
+    const managerData = await inquirer.prompt([ 
+        {
+            name: 'name',
+            type: 'input', 
+            message: "Enter Manager's name"
+        },  
+        {
+            name: 'email',
+            type: 'input', 
+            message: "Enter Manager's email"
+        }, 
+        {
+            name: 'officeNumber',
+            type: 'input', 
+            message: "Enter Manager's office number"
+        },  
+        {
+            name: 'count',
+            type: 'input', 
+            message: "Enter amount of employee working under Manager"
+        }, 
+ 
+    ]) 
+
+    // to creat a manager object  
+    team.push ( new Manager ( managerData.name, ID++, managerData.email, managerData.officeNumber, managerData.count)) 
+    for ( let userCnt =1; userCnt<= managerData.count ; userCnt++ ){ 
+        const user = await inquirer.prompt([
+            {
+                name:'type', 
+                type:'list',
+                message:`For person ${userCnt}/${managerData.count}`,
+                choices: ["Intern", "Engineer"]
+            }
+        ]) 
+         // ENGINEER
+        if ( user.type== "Engineer" ){
+            const userData = await inquirer.prompt([
+                {
+                    name: 'name', 
+                    type: 'input', 
+                    message: 'Enter engineer name'
+                },   
+                {
+                    name: 'email', 
+                    type: 'input', 
+                    message: 'Enter engineer email address'
+                },  
+                // {
+                //     name: 'employee ID', 
+                //     type: 'input', 
+                //     message: 'Enter engineer employee ID'
+                // }, 
+            
+                {
+                    name: 'github', 
+                    type: 'input', 
+                    message: 'Enter engineer github ID'
+                }, 
+            ]);
+            team.push ( new Engineer (user.Data.name, ID++, userData.email, userData.github))
+        
+        } else {   
+
+            // INTERN
+
+            const userData = await inquirer.prompt([
+                {
+                    name:'name', 
+                    type: 'input', 
+                    message: 'Enter Intern name'
+                },  
+                {
+                    name:'email', 
+                    type: 'input', 
+                    message: 'Enter Intern email address'
+                },  
+                {
+                    name:'school ', 
+                    type: 'input', 
+                    message: 'Enter Intern school name'
+                }, 
+            ]);
+            team.push( new Intern( userData.name, ID++, userData.email, userData.school))
+        }
+
+    
+    } 
+
+    // TO CREATE HTML & WRITE FILE 
+    const html = render(team) 
+
+    fs. writeFileSync (outputPath, html ); 
+    console.log( `finshed writing file , availble in ${outputPath}`)
+
+} 
+main ();  
+
+
+
+
+
+
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
